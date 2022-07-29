@@ -11,18 +11,18 @@ kristina.connect();
 const phillip = new Display(I2C2, 0x3C);
 phillip.connect();
 
-const max = 3;
+const max = 51;
 let index = 1;
 
 //Use a switch to increment iterating index
-//GPIO pin setup
+//GPIO pin setup: 
 D12.mode('input');
 function onPress(event) {
 
     index++;
     if(index > max) index = 1;
 
-    console.log(index);
+    console.log(`Rendering ${index}.json...`);
     const data = Storage.readJSON(`${index}.json`);
 
     kristina.write(data.k);
