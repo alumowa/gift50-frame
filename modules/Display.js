@@ -10,12 +10,12 @@ class Display extends I2CDevice {
 
         super(bus, address);
         
+        this.ready = false;
         this.animatingHearts = false;
         this.heartInterval = null;
-        
     }
 
-    connect(callback) {
+    connect() {
 
         this.display = SH1106.connect(this.conn.bus, () => {
             
@@ -32,9 +32,7 @@ class Display extends I2CDevice {
             };
 
             this.ready = true;
-            console.log('Display ready');
-
-            callback(this.display);
+            this.emit('ready', this.display);
         }, { address: this.conn.address });        
     }
 
