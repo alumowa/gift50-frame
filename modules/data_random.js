@@ -1,30 +1,49 @@
 exports = [
-    {
-        k: 'random 1',
-        p: 'Hi'
-    },
-    {
-        k: 'random 2',
-        p: 'Hi'
-    },
-    {
-        k: 'random 3',
-        p: 'Hi'
-    },
-    {
-        k: 'random 4',
-        p: 'Hi'
-    },
-    {
-        k: 'random 5',
-        p: 'Hi'
-    },
-    {
-        k: 'random 6',
-        p: 'Hi'
-    },
-    {
-        k: 'random 7',
-        p: 'Hi'
-    }
-]
+    'Bla bla?',
+    'Bla! Bla!',
+    'Heee...',
+    'Was denn?',
+    'Dum di du',
+    'Papperlapapp',
+    'Blupp',
+    'Grrr...',
+    'Schuwidu...',
+    'Bli bla blup',
+    'Schoko...',
+    '...bons',
+    'Durchbrennen?',
+    'Ich lass den ',
+    'Wagen an!',
+    'Und jetzt?',
+    'Chillen!',
+    'Schlafen!',
+    'Okee...',
+    'Herrjeminee',
+    'Fraujeminee',
+    'Mr...',
+    'Mrs...',
+    'Bart...',
+    '...bruder',
+    'Bier!',
+    'Cola!',
+    'Hilfe!',
+    'Keine Sorge!',
+    'Was zum...',
+    '...Kuckuck?',
+    'Da ham wa...',
+    '... den Salat...',
+    'Oh neeein!',
+    'Hae?',
+    'Hrm...',
+    'Ker, ker, ker...',
+    'Nicht denk...',
+    'Denk...',
+    'Na sowas?!',
+    'Was zum?',
+    'Bomben und',
+    'Granaten!',
+    'Himmel, Arsch,',
+    'und Zwirn!',
+    'ToeTo...',
+    'ToeoeoeM!'
+];
