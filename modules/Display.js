@@ -45,7 +45,9 @@ class Display extends I2CDevice {
         }
         
         this.display.clear();
-        this.display.drawString(message);        
+        
+        //Use wrapString call to break up long text
+        this.display.drawString(this.display.wrapString(message, this.display.getWidth()).join('\n'));        
         this.display.flip();
     }
 
