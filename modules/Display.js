@@ -33,7 +33,7 @@ class Display extends I2CDevice {
 
             this.ready = true;
             this.emit('ready', this.display);
-        }, { address: this.conn.address });        
+        }, { address: this.conn.address, contrast: 255 });        
     }
 
     write(message) {
