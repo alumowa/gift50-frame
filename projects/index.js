@@ -1,15 +1,18 @@
 const EventGenerator = require('EventGenerator');
 const Util = require('Util');
 const Display = require('Display');
+
+//Data imports
 const images = require('images');
+const randomText = require('data_random');
 
 const TickRateMS = 500;
 const BootTime = Date.now();
 
+//Called when display is ready
 function onDisplayReady(){
 
-  console.log('display connected: ' + Date.now());
-
+  // console.log('display connected: ' + Date.now());
   // kristina.startHearts();
 }
 
@@ -34,7 +37,8 @@ events.on('tick', (event) => {
       kristina.write('Show daily message');
       break;
     case events.TYPES.RANDOM:
-      kristina.write('Show random message');
+      const index = Math.floor((Math.random() * randomText.length));
+      kristina.write(randomText[index].k);
       break;
     case events.TYPES.HEARTS:
       kristina.write('Show hearts');
