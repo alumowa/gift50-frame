@@ -7,7 +7,8 @@ function onDisplayConnect(){
   console.log('display connected');
 
   // christina.write('Was zum Henker?! \nNur noch 50 Tage bis \nzur Hochzeit?');
-  kristina.qr(images.hearts);
+  // kristina.draw(images.hearts);
+  kristina.startHearts();
 }
 
 //Init i2c buses

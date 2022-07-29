@@ -1,12 +1,18 @@
 const SH1106 = require('SH1106');
 const I2CDevice = require('I2CDevice');
 
+const images = require('images');
+
 
 class Display extends I2CDevice {
 
     constructor(bus, address) {
 
-        super(bus, address);        
+        super(bus, address);
+        
+        this.animatingHearts = false;
+        this.heartInterval = null;
+        
     }
 
     connect(callback) {
@@ -39,14 +45,63 @@ class Display extends I2CDevice {
         this.display.flip();
     }
 
-    qr(image) {
+    draw(image) {
 
         this.display.clear();
         this.display.drawImage(image, 
             this.mid.x - (image.width / 2), 
             this.mid.y - (image.height / 2));
-            
+
         this.display.flip();
+    }
+
+    /**
+     * Enter heart animation mode
+     */
+    startHearts() {
+
+        //If already running just bail
+        if(this.animatingHearts){
+            return;
+        }
+
+        const updateMs = 500;
+        this.heartInterval = setInterval(this.renderHearts.bind(this), updateMs);
+        this.animatingHearts = true;
+    }
+
+    /**
+     * Stops heart animation
+     */
+    stopHearts() {
+        
+        this.animatingHearts = false;
+        clearInterval(this.heartInterval);
+    }
+
+    /**
+     * Randomly render hearts bitmap on the screen
+     */
+    renderHearts() {
+
+        //Bail out if we are no longer in animating mode
+        if(!this.animatingHearts){
+            return;
+        }
+
+        const image = images.hearts;
+
+        //Calculate a scale to make things less boring but
+        //we also have to use this value below when calculating
+        //the drawable area. Lock range between 0.3 - 1.0
+        const scale = 0.3 + ((1 - 0.3) * Math.random());
+
+        this.display.clear();
+        this.display.drawImage(image, 
+            Math.random() * (this.display.getWidth() - (image.width * scale)), 
+            Math.random() * (this.display.getHeight() - (image.height * scale)),
+            { scale: scale });
+        this.display.flip();        
     }
 }
 
