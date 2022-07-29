@@ -38,12 +38,24 @@ class Display extends I2CDevice {
 
     write(message) {
 
+        //Make sure we exit heart animation
+        //when drawing strings
+        if(this.animatingHearts) {
+            this.stopHearts();
+        }
+        
         this.display.clear();
         this.display.drawString(message);        
         this.display.flip();
     }
 
     draw(image) {
+
+        //Make sure we exit heart animation
+        //when drawing images
+        if(this.animatingHearts) {
+            this.stopHearts();
+        }
 
         this.display.clear();
         this.display.drawImage(image, 
