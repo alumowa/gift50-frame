@@ -56,10 +56,10 @@ function renderQr() {
     `qr${Util.randomIndexInRange(1, qrCount)}.json`
   );
   if (Math.round(Math.random())) {
-    kristina.drawQr(qrImage);
+    kristina.drawQr(qrImage.data);
     phillip.write(staticMsg);
   } else {
-    phillip.drawQr(qrImage);
+    phillip.drawQr(qrImage.data);
     kristina.write(staticMsg);
   }
 }
