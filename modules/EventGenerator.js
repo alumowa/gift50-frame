@@ -7,7 +7,8 @@ class EventGenerator {
     //Remember boot time
     this.bootTime = Date.now();
     this.tickCount = 0;
-    this.eventInterval = setInterval(this.onTick.bind(this), tickRateMs);
+    this.eventInterval;
+    this.tickRateMs = tickRateMs;
 
     this.TYPES = {
       DAILY: 0,
@@ -20,6 +21,20 @@ class EventGenerator {
     //(hourly, daily) to generate those events as well.
     this.ticksPerHour = Math.ceil((1000 * 60 * 60) / tickRateMs);
     this.ticksPerDay = 24 * this.ticksPerHour;
+  }
+
+  /**
+   * Starts event tick interval
+   */
+  startTick() {
+    this.eventInterval = setInterval(this.onTick.bind(this), tickRateMs);
+  }
+
+  /**
+   * Stops event tick interval
+   */
+  stopTick() {
+    clearInterval(this.eventInterval);
   }
 
   /**
