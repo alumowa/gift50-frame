@@ -1,0 +1,22 @@
+{
+  "name": "gift50",
+  "version": "1.0.0",
+  "description": "ESP32 based photo frame with conversing chat bubbles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alumowa/gift50-frame.git"
+  },
+  "author": "Alvin Lumowa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alumowa/gift50-frame/issues"
+  },
+  "homepage": "https://github.com/alumowa/gift50-frame#readme",
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
+}
