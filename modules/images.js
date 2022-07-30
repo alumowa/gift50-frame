@@ -1,6 +1,10 @@
 exports = {
-    rickroll: {
-        width : 50, height : 50, bpp : 1,
-        buffer : atob("AAPz8PAAAAD8/DwAA/8wPw8/8P/MD8PP/DAzP/zzAwwMz/88wMMDPPw/MDDAzz8PzAwwMwMM8wMMDMDDPMDD/zMwAz/w/8zMAM/8AAMzMzAAAADMzMwAD//zDw/////8w8P//wzw/MMwMMM8PzDMDDDw/MAwP/A8PzAMD/wwA///zzwMAP//888M/8AM/A//P/ADPwP//AMzAwDMPwDMwMAzDwz/8z8MM8M//M/DDDzD/DMwMw8w/wzMDMwAwMzz888AMDM8/PMMMMz8AAPDDDM/AAD///Mww/Dz//zMMPw8AAMDzDMMAADA8wzDA/888wPwDP/PPMD8AzAzwA8AD8wM8APAA/MDMPM/wDzAzDzP8A8wM//AzDMMDP/wMwzD/zAA8Pz8/8wAPD8/AAM//DD8AADP/ww/AA==")
-    }    
+  rickroll: {
+    width: 50,
+    height: 50,
+    bpp: 1,
+    buffer: atob(
+      "AAPz8PAAAAD8/DwAA/8wPw8/8P/MD8PP/DAzP/zzAwwMz/88wMMDPPw/MDDAzz8PzAwwMwMM8wMMDMDDPMDD/zMwAz/w/8zMAM/8AAMzMzAAAADMzMwAD//zDw/////8w8P//wzw/MMwMMM8PzDMDDDw/MAwP/A8PzAMD/wwA///zzwMAP//888M/8AM/A//P/ADPwP//AMzAwDMPwDMwMAzDwz/8z8MM8M//M/DDDzD/DMwMw8w/wzMDMwAwMzz888AMDM8/PMMMMz8AAPDDDM/AAD///Mww/Dz//zMMPw8AAMDzDMMAADA8wzDA/888wPwDP/PPMD8AzAzwA8AD8wM8APAA/MDMPM/wDzAzDzP8A8wM//AzDMMDP/wMwzD/zAA8Pz8/8wAPD8/AAM//DD8AADP/ww/AA=="
+    ),
+  },
 };

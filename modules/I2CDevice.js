@@ -1,18 +1,15 @@
 /**
- * Base I2C class to hold i2c 
+ * Base I2C class to hold i2c
  * connection data
  */
 
 class I2CDevice {
-
   constructor(bus, address) {
-
-    this.conn = { 
+    this.conn = {
       bus: bus,
-      address: address 
-    };   
+      address: address,
+    };
   }
 }
-
 
 exports = I2CDevice;
