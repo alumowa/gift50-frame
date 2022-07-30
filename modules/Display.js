@@ -112,9 +112,10 @@ class Display extends I2CDevice {
         //the drawable area. Lock range between min = 0.3 - 1.0
         const min = 0.3;
         const scale = min + ((1 - min) * Math.random());
+        const image = this.bmp_hearts;
 
         this.display.clear();
-        this.display.drawImage(this.bmp_hearts, 
+        this.display.drawImage(image, 
             Math.random() * (this.display.getWidth() - (image.width * scale)), 
             Math.random() * (this.display.getHeight() - (image.height * scale)),
             { scale: scale });
