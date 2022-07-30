@@ -13,6 +13,12 @@ class Display extends I2CDevice {
         this.ready = false;
         this.animatingHearts = false;
         this.heartInterval = null;
+
+        //hearts.bmp data
+        this.bmp_hearts = {
+            width : 64, height : 64, bpp : 1,
+            buffer : atob('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAQAAAAAAf8Af8AAAAAH/4H/4AAAAA//w//wAAAAD//j//gAAAAf//f/+AAAAB//9//8AAAAH/////wAAAAf/////AAAAB/////8AAAAH/////wAAAAf/////AAAAB/////8AAAAH/////gAAAAP////+AAAAA/////4AAAAB/////AAAAAH////4AAAAAP////gAAAAAf///8AAAAAB////gAAAAAD///+AAAAAAH///wAAAAAAP//+AAAAAAA///wAAAAAAB///A/AfgAAD//4H/D/gAAH//A/+f+AAAf/4H/7/8AAA//gf///wAAB/8B////AAAH/gH///8AAAP+Af///wAAAfwB////AAAB/AH///8AAAD4AP///gAAAPgA///+AAAAcAB///wAAABwAD///AAAAGAAH//4AAAAIAAf//AAAAAAAA//4AAAAAAAB//gAAAAAAAD/8AAAAAAAAP/gAAAAAAAAf8AAAAAAAAA/wAAAAAAAAD+AAAAAAAAAH4AAAAAAAAAfAAAAAAAAAA4AAAAAAAAADgAAAAAAAAAGAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=')
+        };
     }
 
     connect() {
@@ -101,15 +107,14 @@ class Display extends I2CDevice {
             return;
         }
 
-        const image = images.hearts;
-
         //Calculate a scale to make things less boring but
         //we also have to use this value below when calculating
-        //the drawable area. Lock range between 0.3 - 1.0
-        const scale = 0.3 + ((1 - 0.3) * Math.random());
+        //the drawable area. Lock range between min = 0.3 - 1.0
+        const min = 0.3;
+        const scale = min + ((1 - min) * Math.random());
 
         this.display.clear();
-        this.display.drawImage(image, 
+        this.display.drawImage(this.bmp_hearts, 
             Math.random() * (this.display.getWidth() - (image.width * scale)), 
             Math.random() * (this.display.getHeight() - (image.height * scale)),
             { scale: scale });
