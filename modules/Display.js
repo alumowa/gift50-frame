@@ -61,7 +61,7 @@ class Display extends I2CDevice {
     this.display.flip();
   }
 
-  draw(image) {
+  drawQr(imageData) {
     //Make sure we exit heart animation
     //when drawing images
     if (this.animatingHearts) {
@@ -69,6 +69,14 @@ class Display extends I2CDevice {
     }
 
     this.display.clear();
+
+    const image = {
+      width: 64,
+      height: 64,
+      bpp: 1,
+      buffer: atob(imageData),
+    };
+
     this.display.drawImage(
       image,
       this.mid.x - image.width / 2,
