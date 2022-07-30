@@ -7,8 +7,9 @@ class EventGenerator {
     constructor(tickRateMs) {
 
         //Remember boot time
-        this.bootTime = Date.now();        
-        this.eventInterval = setInterval(this.onEvent.bind(this), tickRateMs);
+        this.bootTime = Date.now();
+        this.tickCount = 0; 
+        this.eventInterval = setInterval(this.onTick.bind(this), tickRateMs);
 
         this.TYPES = {
             DAILY: 0,
@@ -16,27 +17,54 @@ class EventGenerator {
             HEARTS: 2,
             QR: 3
         };
+
+        //Convert tickRateMs into time intervals
+        //(hourly, daily) to generate those events as well.        
+        this.ticksPerHour = Math.ceil((1000 * 60 * 60) / tickRateMs);
+        this.ticksPerDay = 24 * this.ticksPerHour;
     }
 
-
-    onEvent() {
+    /**
+     * Called every tickRateMs
+     */
+    onTick() {
 
         const now = Date.now();
-        const rand = Math.random();
-        
-        /**
-         * 45% chance to display daily text
-         * 25% chance to display a random text pair
-         * 15% chance to render hearts
-         * 15% chance to render qr
-         */
+        this.tickCount++; //overflow not a real issue here
+
+        //Get random event and emit tick event
+        const event = this.randomEvent();
+        this.emit('tick', event);
+
+        //Emit hourly and daily ticks if necessary
+        if((this.tickCount % this.ticksPerHour) === 0){
+            this.emit('hour-tick', now);
+        }
+
+        if((this.tickCount % this.ticksPerHour) === 0){
+            this.emit('day-tick', now);
+        }        
+    }
+
+    /**
+     * Generate a random event used for display rendering
+     * 45% chance to display daily text
+     * 25% chance to display a random text pair
+     * 15% chance to render hearts
+     * 15% chance to render qr
+     */
+    randomEvent() {
+
+        const rand = Math.random();        
         const events = [
             { type: this.TYPES.DAILY, odds: 0.45 },
             { type: this.TYPES.RANDOM, odds: 0.25 },
             { type: this.TYPES.HEARTS, odds: 0.15 },
             { type: this.TYPES.QR, odds: 0.15 }
         ];
-        const event = events.reduce((acc, val) => {
+
+
+        const candidate = events.reduce((acc, val) => {
 
             //If we already have a matched event, just return
             //the accumulator
@@ -50,14 +78,12 @@ class EventGenerator {
                 acc.event = val.type;
             }
 
-            //Accumulate total odds
+            //Accumulate total odds and return accumulator
             acc.odds+= val.odds;
-
             return acc;
         }, { odds: 0, event: null });
         
-        //Emit event candidate
-        this.emit('tick', event.event);
+        return candidate.event;        
     }
 }
 
