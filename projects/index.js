@@ -2,6 +2,7 @@ const EventGenerator = require("EventGenerator");
 const Display = require("Display");
 const Storage = require("Storage");
 const Network = require("Network");
+const Util = require("Util");
 
 const TickRateMS = 5 * 1000;
 const BootTime = Date.now();
@@ -44,6 +45,25 @@ function renderRandom() {
   phillip.write(randomText[Math.floor(Math.random() * randomText.length)]);
 }
 
+/**
+ * Render a QR on one display while the other
+ * displays a random quip.
+ */
+function renderQr() {
+  const staticMsg = "Hatten wir den schon?";
+  const qrCount = 20;
+  const qrImage = Storage.readJSON(
+    `qr${Util.randomIndexInRange(1, qrCount)}.json`
+  );
+  if (Math.round(Math.random())) {
+    kristina.drawQr(qrImage);
+    phillip.write(staticMsg);
+  } else {
+    phillip.drawQr(qrImage);
+    kristina.write(staticMsg);
+  }
+}
+
 //Initialize clock & configure event probabilities
 const events = new EventGenerator(TickRateMS);
 events.on("tick", (event) => {
@@ -66,8 +86,8 @@ events.on("tick", (event) => {
       break;
 
     case events.TYPES.QR:
-      kristina.write("Show QR");
-      phillip.write("Show QR");
+      renderQr();
       break;
+      qr;
   }
 });
