@@ -27,7 +27,7 @@ class EventGenerator {
    * Starts event tick interval
    */
   startTick() {
-    this.eventInterval = setInterval(this.onTick.bind(this), tickRateMs);
+    this.eventInterval = setInterval(this.onTick.bind(this), this.tickRateMs);
   }
 
   /**

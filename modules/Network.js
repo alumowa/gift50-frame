@@ -46,7 +46,8 @@ class Network {
       }
 
       //Stop Wifi upon time refresh, essentially this only happens
-      //on boot up.
+      //on boot up. Emit ready event to help orchestrate setup.
+      this.emit("ready");
       this.stop();
     });
   }
