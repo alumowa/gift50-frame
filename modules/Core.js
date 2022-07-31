@@ -146,11 +146,8 @@ class Core {
       //Final text
       data = Storage.readJSON("final.json");
     } else {
-      //After Oct 4 just randomize
-      Storage.readJSON(
-        //Randomly load {1-51}.json
-        `${Util.randomIndexInRange(1, 51)}.json`
-      );
+      //Randomly load {1-51}.json
+      data = Storage.readJSON(`${Util.randomIndexInRange(1, 51)}.json`);
     }
 
     //Render to each character
