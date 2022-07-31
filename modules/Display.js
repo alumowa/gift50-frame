@@ -95,7 +95,7 @@ class Display extends I2CDevice {
       return;
     }
 
-    const updateMs = 500;
+    const updateMs = 250;
     this.heartInterval = setInterval(this.renderHearts.bind(this), updateMs);
     this.animatingHearts = true;
   }
