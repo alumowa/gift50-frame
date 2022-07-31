@@ -93,10 +93,10 @@ class Core {
   getRandomEvent() {
     const rand = Math.random();
     const events = [
-      { type: this.EVENT.DAILY, odds: 0.45 },
-      { type: this.EVENT.RANDOM, odds: 0.25 },
-      { type: this.EVENT.HEARTS, odds: 0.15 },
-      { type: this.EVENT.QR, odds: 0.15 },
+      { type: this.EVENT.DAILY, odds: 0.4 },
+      { type: this.EVENT.RANDOM, odds: 0.2 },
+      { type: this.EVENT.HEARTS, odds: 0.2 },
+      { type: this.EVENT.QR, odds: 0.2 },
     ];
 
     const candidate = events.reduce(
@@ -130,20 +130,30 @@ class Core {
     );
     console.log("days until: " + daysUntil);
     let data;
-    if (daysUntil < 0) {
-      //If we are past the wedding, show the final text
-      data = Storage.readJSON("final.json");
-    } else if (daysUntil >= 50) {
+
+    //Before Aug 11 show the first daily msg
+    //Between aug 11 and Sept 30 do countdown.
+    //Between Sept 30 and Oct 4 show final msg
+    //After that, randomize daily messages.
+    if (daysUntil >= 50) {
       //Display the first conversation any day up to
       //August 11
       data = Storage.readJSON("1.json");
-    } else {
-      //Otherwise pull out appropriate text
-      //from matching file.
+    } else if (daysUntil < 50 && daysUntil >= 0) {
+      //Matching countdown text
       data = Storage.readJSON(`${51 - daysUntil}.json`);
+    } else if (daysUntil < 0 && daysUntil > -5) {
+      //Final text
+      data = Storage.readJSON("final.json");
+    } else {
+      //After Oct 4 just randomize
+      Storage.readJSON(
+        //Randomly load {1-51}.json
+        `${Util.randomIndexInRange(1, 51)}.json`
+      );
     }
 
-    //Render
+    //Render to each character
     this.displays.kristina.write(data.k);
     this.displays.phillip.write(data.p);
   }
