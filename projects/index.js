@@ -2,7 +2,7 @@ const Storage = require("Storage");
 const Util = require("Util");
 const Core = require("Core");
 
-const TICK_RATE_MS = 5 * 1000;
+const TICK_RATE_MS = 5 * 60 * 1000;
 const core = new Core(TICK_RATE_MS);
 
 //Init i2c buses
