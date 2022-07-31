@@ -23,6 +23,10 @@ class Core {
     //Initialize event tick generator
     this.eventGenerator = new EventGenerator(tickRateMs);
     this.eventGenerator.on("tick", this.onTick.bind(this));
+    this.eventGenerator.on("day-tick", () => {
+      //GC Daily
+      process.memory(true);
+    });
 
     //Wifi setup
     const credentials = Storage.readJSON("wifi_credentials.json");
@@ -57,10 +61,6 @@ class Core {
   }
 
   onTick(now) {
-    // console.log(`Minutes since boot ${EventGenerator.DaysSinceBoot(BootTime)}`);
-    const p = process.memory(false);
-    console.log(`${now.toString()}: ${JSON.stringify(p)}`);
-
     const event = this.getRandomEvent();
 
     switch (event) {
@@ -128,7 +128,7 @@ class Core {
     const daysUntil = Math.ceil(
       (this.weddingTime - Date.now()) / (86400 * 1000)
     );
-    console.log("days until: " + daysUntil);
+
     let data;
 
     //Before Aug 11 show the first daily msg
