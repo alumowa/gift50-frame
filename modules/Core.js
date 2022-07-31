@@ -7,8 +7,16 @@ const Util = require("Util");
 class Core {
   constructor(tickRateMs) {
     this.bootTime = Date.now();
+    this.weddingTime = 1664488800000; //Set to 30/9/2022
     this.displays = {};
     this.network;
+
+    this.EVENT = {
+      DAILY: 0,
+      RANDOM: 1,
+      HEARTS: 2,
+      QR: 3,
+    };
 
     E.setTimeZone(2); //Timezone set to CEET (+2)
 
@@ -39,6 +47,7 @@ class Core {
   //Connects to network to attempt a system time update and
   //starts the event generator
   start() {
+    console.log("Core starting...");
     this.network.on("ready", () => {
       //Once network is connected, we can start our
       //event generator.
@@ -47,46 +56,94 @@ class Core {
     this.network.start();
   }
 
-  onTick(event) {
+  onTick(now) {
     // console.log(`Minutes since boot ${EventGenerator.DaysSinceBoot(BootTime)}`);
     const p = process.memory(false);
-    const now = new Date();
     console.log(`${now.toString()}: ${JSON.stringify(p)}`);
 
-    const events = this.eventGenerator;
+    const event = this.getRandomEvent();
 
     switch (event) {
-      case events.TYPES.DAILY:
+      case this.EVENT.DAILY:
         this.renderDaily();
         break;
 
-      case events.TYPES.RANDOM:
+      case this.EVENT.RANDOM:
         this.renderRandom();
         break;
 
-      case events.TYPES.HEARTS:
+      case this.EVENT.HEARTS:
         this.renderHearts();
         break;
 
-      case events.TYPES.QR:
+      case this.EVENT.QR:
         this.renderQr();
         break;
         qr;
     }
   }
 
+  /**
+   * Generate a random event used for display rendering
+   * 45% chance to display daily text
+   * 25% chance to display a random text pair
+   * 15% chance to render hearts
+   * 15% chance to render qr
+   */
+  getRandomEvent() {
+    const rand = Math.random();
+    const events = [
+      { type: this.EVENT.DAILY, odds: 0.45 },
+      { type: this.EVENT.RANDOM, odds: 0.25 },
+      { type: this.EVENT.HEARTS, odds: 0.15 },
+      { type: this.EVENT.QR, odds: 0.15 },
+    ];
+
+    const candidate = events.reduce(
+      (acc, val) => {
+        //If we already have a matched event, just return
+        //the accumulator
+        if (acc.event !== null) {
+          return acc;
+        }
+
+        //Otherwise we check if rand falls in the odds range,
+        //if so, attach event type to accumulator.
+        if (rand <= acc.odds + val.odds) {
+          acc.event = val.type;
+        }
+
+        //Accumulate total odds and return accumulator
+        acc.odds += val.odds;
+        return acc;
+      },
+      { odds: 0, event: null }
+    );
+
+    return candidate.event;
+  }
+
   renderDaily() {
     //Calculate days to wedding and pull fetch matching data
-    const weddingTime = 1664488800000;
-    const daysUntil = Math.ceil((weddingTime - Date.now()) / (86400 * 1000));
-    let prefix;
-    if (daysUntil >= 50) {
-      prefix = 1;
+    const daysUntil = Math.ceil(
+      (this.weddingTime - Date.now()) / (86400 * 1000)
+    );
+    console.log("days until: " + daysUntil);
+    let data;
+    if (daysUntil < 0) {
+      //If we are past the wedding, show the final text
+      data = Storage.readJSON("final.json");
+    } else if (daysUntil >= 50) {
+      //Display the first conversation any day up to
+      //August 11
+      data = Storage.readJSON("1.json");
     } else {
-      prefix = 51 - daysUntil;
+      //Otherwise pull out appropriate text
+      //from matching file.
+      data = Storage.readJSON(`${51 - daysUntil}.json`);
     }
 
-    const data = Storage.readJSON(`${prefix}.json`);
+    //Render
     this.displays.kristina.write(data.k);
     this.displays.phillip.write(data.p);
   }

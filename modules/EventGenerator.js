@@ -6,16 +6,10 @@ class EventGenerator {
   constructor(tickRateMs) {
     //Remember boot time
     this.bootTime = Date.now();
+    this.running = false;
     this.tickCount = 0;
     this.eventInterval;
     this.tickRateMs = tickRateMs;
-
-    this.TYPES = {
-      DAILY: 0,
-      RANDOM: 1,
-      HEARTS: 2,
-      QR: 3,
-    };
 
     //Convert tickRateMs into time intervals
     //(hourly, daily) to generate those events as well.
@@ -27,6 +21,7 @@ class EventGenerator {
    * Starts event tick interval
    */
   startTick() {
+    this.running = true;
     this.eventInterval = setInterval(this.onTick.bind(this), this.tickRateMs);
 
     //Kick off the first one
@@ -37,6 +32,7 @@ class EventGenerator {
    * Stops event tick interval
    */
   stopTick() {
+    this.running = false;
     clearInterval(this.eventInterval);
   }
 
@@ -44,12 +40,14 @@ class EventGenerator {
    * Called every tickRateMs
    */
   onTick() {
-    const now = Date.now();
+    if (!this.running) {
+      return;
+    }
+    const now = new Date();
     this.tickCount++; //overflow not a real issue here
 
-    //Get random event and emit tick event
-    const event = this.randomEvent();
-    this.emit("tick", event);
+    //Emit tick evens
+    this.emit("tick", now);
 
     //Emit hourly and daily ticks if necessary
     if (this.tickCount % this.ticksPerHour === 0) {
@@ -59,46 +57,6 @@ class EventGenerator {
     if (this.tickCount % this.ticksPerHour === 0) {
       this.emit("day-tick", now);
     }
-  }
-
-  /**
-   * Generate a random event used for display rendering
-   * 45% chance to display daily text
-   * 25% chance to display a random text pair
-   * 15% chance to render hearts
-   * 15% chance to render qr
-   */
-  randomEvent() {
-    const rand = Math.random();
-    const events = [
-      { type: this.TYPES.DAILY, odds: 0.45 },
-      { type: this.TYPES.RANDOM, odds: 0.25 },
-      { type: this.TYPES.HEARTS, odds: 0.15 },
-      { type: this.TYPES.QR, odds: 0.15 },
-    ];
-
-    const candidate = events.reduce(
-      (acc, val) => {
-        //If we already have a matched event, just return
-        //the accumulator
-        if (acc.event !== null) {
-          return acc;
-        }
-
-        //Otherwise we check if rand falls in the odds range,
-        //if so, attach event type to accumulator.
-        if (rand <= acc.odds + val.odds) {
-          acc.event = val.type;
-        }
-
-        //Accumulate total odds and return accumulator
-        acc.odds += val.odds;
-        return acc;
-      },
-      { odds: 0, event: null }
-    );
-
-    return candidate.event;
   }
 }
 
